@@ -1,0 +1,78 @@
+Raduta Lavinia-Maria 313CA 2021
+LOAD:
+	-pentru citire am decis sa deschid fisierul cu poza in mod binar,
+ 	indiferent de tipul fotografiei;
+ 	-deoarece am considerat pozele color ca matrici cu latimea de trei ori
+ 	mai mare decat cea inregistrata, am adaptat si pentru cele grayscale
+ 	pentru a folosi acelasi tip de structura;
+ 	-avand in vedere ca intensitatea maxima a culorilor va fi maxim 255 am
+ 	decis sa consider pixelii ca unsigned char si i-am citit pe rand;
+ 	-dupa ce se incarca cu succes o fotografie, se va selecta implicit
+ 	intreaga suprafata;
+ 	-am avut grija ca daca inainte era deja incarcata in memorie o imagine
+ 	sa eliberez intai memoria inainte de noua incarcare.
+ SAVE:
+ 	-am citit dupa parametrul save tot sirul de caractere pana la \n;
+ 	-inainte de inceperea salvarii se verifica daca exista vreo imagine
+ 	incarcata in memorie, daca nu se afiseaza mesajul "No image loaded";
+ 	-am eliminat spatiile libere din sir;
+ 	-am verificat daca sirul contine cuvantul ascii in functie de care am
+ 	decis daca salvez binar sau nu;
+ 	-in cazul in care se salveaza in mod diferit de input (input binar si
+ 	salvare ascii sau invers) am avut grija sa schimb cuvantul magic,
+ 	pastrand tipul de coloratie al imaginii.
+SELECT:
+	-am testat daca este sau nu incarcata vreo imagine in memorie;
+	-am citit tot pana la enter pentru a verifica daca comada este valida;
+	-intai am facut o copie a coordonatelor deja existente pentru cazurile
+	in care comanda este invalida sau coordonatele citite sunt invalide;
+	-daca sirul citit nu este "ALL" si daca printre caracterele aflate se
+	aflau altele in afara de cifre, spatii sau cratime comanda este
+	considerata invalida;
+	-asigurandu-ma ca sunt numai caractere valide am inceput sa extrag
+	numerele, tinand cont ca sunt despartite de spatii si transformand
+	subsirurile in numere;
+	-daca am gasit mai mult sau mai putin de 4 numere comanda este invalida;
+	-daca pana aici s-au indeplinit conditiile se salveaza coordonatele si
+	mai apoi se verifica daca sunt sau nu valide: daca sut toate pozitive,
+	daca nu depasesc dimensiunile fotografiei, daca x1 si x2 sau y si y2 
+	sunt diferite intre ele;
+	-daca se gaseste vreo greseala se copiaza coordonatele de backup;
+	-inante de afisarea coordonatelor acestea se ordoneze pentru a pastra
+	x1 < x2 si y1 < y2.
+GRAYSCALE:
+	-se verifica daca numarul magic al fotografiei corespunde unei imagini
+	color, iar daca nu filtrul este indisponibil;
+	-daca este color, ficare canal va primi valoarea mediei aritmetice a
+	celor 3 culori initiale.
+SEPIA:
+	-se verifica daca numarul magic al fotografiei corespunde unei imagini
+	color, iar daca nu filtrul este indisponibil;
+	-daca este color se aplica formulele pentru fiecare canal;
+	-m-am asigurat ca nu se depaseste vaoarea maxima a intensitatii facand
+	minimul dintre valoare maxima si valoarea obtinuta pentru fiecare canal.
+CROP:
+	-pentru taiere am folosit o matrice auxiliara in care am pastrat doar
+	partea de imagine care ramane, dealocand memoria pentru vechea poza;
+	-am modificat dimensiunile din antetul fotografiei;
+	-dupa taiere imaginea este implicit selectata toata si am modificat noile
+	coordonate extreme.
+ROTATE:
+	-am verificat sa fie incarcata o poza in memorie;
+	-am implementat rotirile la +-90 de grade, pentru ca celelalte unghiuri
+	se pot considera rotiri repetate la 90;
+	-se testeaza daca selectia este pe toata poza, iar in caz contrar daca,
+	coordonatele indica un patrat;
+	-pentru 0 si +-360 poza nu se va modifica, deci nu se intampla nimic;
+	-rotirile la dreapta si la stanga a unui patrat se fac parcurgand
+	exteriorul matricei si apoi pe urmatoarele patrate catre centru;
+	-la +90: matricea rezultata este matricea initiala, transpusa "de jos in
+	sus", atat pentru intreaga suprafata cat si pentru un patrat;
+	-la -90: matricea rezultata este cea initiala, transpusa "de la dreapta
+	la stanga", atat pentru intreaga suprafata cat si pentru un patrat;
+	-dupa ce se roteste intreaga poza se modifica si coordonatele.
+EXIT:
+	-cand se citeste EXIT se termina executia programului, iar daca a fost
+	incarcata in memorie vreo poza se va dealoca memoria utilizata ea.
+	 
+	
